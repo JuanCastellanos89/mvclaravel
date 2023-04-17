@@ -2,7 +2,7 @@
 @section('titulo', 'Actualizar Role')
 @section('contenido')
 @include('dashboard.partials.validation-error')
-  <h2 class="text-xl">Actualizar Role</h2>
+  <h2 class="text-xl">Actualizar Usuario</h2>
   <form action="{{ route('usuario.update', $user->id) }}" method="post">
     @method('PUT')
     @csrf
