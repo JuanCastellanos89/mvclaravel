@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\Post;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
 
@@ -21,8 +23,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'ASC')->Paginate(5);
-        return view('dashboard.post.index', ['posts' => $posts]);
+        $posts = Post::orderBy('created_at', 'desc')->simplePaginate(5);
+        return view('dashboard.post.index', ['posts'=>$posts]);
     }
 
     /**
@@ -36,6 +38,9 @@ class PostController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StorePost $request)
     {
@@ -48,7 +53,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('dashboard.post.show',["post"=>$post]);
+        $replys = Reply::all();
+        return view('dashboard.post.show', ["replys"=>$replys], ["post"=>$post], ['reply'=>new Reply()]);
     }
 
     /**
@@ -65,7 +71,7 @@ class PostController extends Controller
      */
     public function update(StorePost $request, Post $post)
     {
-        $post->update($request -> validated());
+        $post->update($request->validated());
         return back()->with('status', 'Post actualizado con éxito'); 
     }
 

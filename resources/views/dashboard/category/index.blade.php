@@ -1,5 +1,5 @@
 @extends('dashboard.master')
-@section('titulo', 'Categories')
+@section('titulo', 'Categorias')
 @section('contenido')
   <h2 class="text-xl">Categorias</h2>
   @can('crear-category')

@@ -11,6 +11,7 @@
         <th scope="col">Id</th>
         <th scope="col">Nombre</th>
         <th scope="col">Categoria</th>
+        <th scope="col">Autor</th>
         <th scope="col">Estado publicación</th>
         <th scope="col">Creación</th>
         <th scope="col">Actualización</th>
@@ -23,18 +24,26 @@
         <th scope="row">{{ $post->id }}</th>
         <td>{{ $post->name }}</td>
         <td>{{ $post->category->name}}</td>
+        <td>{{ $post->autor->name}}</td>
         <td>{{ $post->state }}</td>
         <td>{{ $post->created_at }}</td>
         <td>{{ $post->updated_at }}</td>
+        @if ($post->autor_id == Auth::user()->id)
         <td>
-          <a class="btn btn-sm btn-primary " href="{{ route('post.show',$post->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
+          <a href="{{ route('post.show', $post->id) }}" class="btn btn-primary btn-sm" title="ver">Ver</a>
           @can('editar-post')
-          <a class="btn btn-sm btn-success" href="{{ route('post.edit',$post->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
+          <a href="{{ route('post.edit', $post->id) }}" class="btn btn-sm btn-success" title="editar">Editar</a>
           @endcan          
+
           @can('borrar-post')
-          <button type="button" class="btn btn-danger btn-sm bg-red-500" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id="{{ $post->id }}"> Eliminar</button>
+          <button type="button" class="btn btn-danger btn-sm bg-red-500" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id="{{ $post->id }}">Eliminar</button>
           @endcan          
         </td>
+        @else
+          <td>
+            <a href="{{ route('post.show', $post->id) }}" class="btn btn-primary btn-sm" title="ver">Ver</a>
+          </td> 
+        @endif        
       </tr>
       @endforeach
     </tbody>
@@ -48,11 +57,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>¿Seguro que desea borrar el Post?</p>
+          <p>¿Seguro que desea borrar el post?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary bg-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <form action="{{ route('post.destroy', $post->id) }}" method="POST" id="deleteForm">
+          <form action="{{ route('post.destroy', 0) }}" method="post" id="deleteForm">
             @method('DELETE')
             @csrf
             <button type="submit" class="btn btn-danger bg-red-500">Eliminar</button>
@@ -67,9 +76,9 @@
       var button = event.relatedTarget
       var recipient = button.getAttribute('data-bs-id')
       var modalTitle = exampleModal.querySelector('.modal-title')
-      modalTitle.textContent = `Eliminar el post con el ID ${recipient}`
+      modalTitle.textContent = `Eliminar post con el id ${recipient}`
       var deleteForm = exampleModal.querySelector('#deleteForm')
-      deleteForm.setAttribute('action', `http://mvclaravel.test/dashboard/post/${recipient}`)
+      deleteForm.setAttribute('action', `http://proyecto-test.test/dashboard/post/${recipient}`)
     })
   </script>
 @endsection
