@@ -9,7 +9,7 @@
 
 Autor: Juan Camilo Castellanos
 
-Desarrollo de la actividad 2 para la clase frameworksMVC
+Desarrollo de la actividad 3 para la clase frameworksMVC - ROLES Y USUARIOS
 Docente: Víctor Hugo Mercado Ramos
 
 <p>IMPORTANTE Datos para loguearse: e-mail: superadmin@mail.com contraseña: 123456789</p>
